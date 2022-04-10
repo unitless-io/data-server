@@ -7,6 +7,7 @@ const authRouter = express.Router();
 import { APP_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_DOMAIN } from '@app/config';
 import { UserDocument } from '@app/types';
 import { User } from '@app/db';
+import { getToken } from '@app/helpers';
 
 passport.serializeUser((user, done) => {
   // @ts-ignore
@@ -31,13 +32,17 @@ passport.use(
     },
     async (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) => {
       try {
-        const user = await User.findOneAndUpdate<UserDocument>(
+        let user = await User.findOneAndUpdate<UserDocument>(
           {
             googleId: profile.id,
           },
           {
             googleId: profile.id,
-            google: profile._json,
+            google: {
+              ...profile._json,
+              accessToken,
+              refreshToken,
+            },
           },
           {
             upsert: true,
@@ -46,6 +51,14 @@ passport.use(
             lean: true,
           }
         ).exec();
+
+        if (!user.appToken) {
+          user = await User.findOneAndUpdate<UserDocument>(
+            { _id: user._id },
+            { appToken: await getToken() },
+            { lean: true, new: true, upsert: true }
+          ).exec();
+        }
         done(null, user);
       } catch (error) {
         console.error(error);

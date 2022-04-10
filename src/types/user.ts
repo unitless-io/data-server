@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-export interface UserSession {}
-
 export interface User {
   googleId?: string;
   google?: {
@@ -13,9 +11,13 @@ export interface User {
     email: string;
     email_verified: boolean;
     locale: string;
+    accessToken: string;
+    refreshToken: string;
   };
   gitHubId?: string;
   gitHub?: {};
+
+  appToken: string | null;
 }
 
 export interface UserModel extends User, mongoose.Document {}

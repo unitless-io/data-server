@@ -6,6 +6,7 @@ const userSchema: mongoose.Schema = new mongoose.Schema<UserType>(
   {
     googleId: { type: String, index: true },
     gitHubId: { type: String, index: true },
+    appToken: { type: String, index: true, default: null },
     google: Object,
     gitHub: Object,
   },

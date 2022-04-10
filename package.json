@@ -53,6 +53,7 @@
     "express-session": "^1.17.2",
     "mongoose": "^6.2.10",
     "morgan": "^1.10.0",
+    "nanoid": "^3.3.2",
     "nocache": "^3.0.3",
     "passport": "^0.5.2",
     "passport-google-oauth2": "^0.2.0",

@@ -4,7 +4,7 @@ import express from 'express';
 
 const authRouter = express.Router();
 
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_DOMAIN } from '@app/config';
+import { APP_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_DOMAIN } from '@app/config';
 import { UserDocument } from '@app/types';
 import { User } from '@app/db';
 
@@ -28,19 +28,17 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: `${GOOGLE_REDIRECT_DOMAIN}/api/v1/auth/google/callback`,
-      passReqToCallback: true,
     },
     async (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) => {
       try {
         const user = await User.findOneAndUpdate<UserDocument>(
           {
-            id: profile.id,
-            email: profile._json.email,
-            family_name: profile._json.family_name,
-            given_name: profile._json.given_name,
-            verified_email: profile._json.email_verified,
+            googleId: profile.id,
           },
-          {},
+          {
+            googleId: profile.id,
+            google: profile._json,
+          },
           {
             upsert: true,
             new: true,
@@ -50,6 +48,7 @@ passport.use(
         ).exec();
         done(null, user);
       } catch (error) {
+        console.error(error);
         done(error, null);
       }
     }
@@ -63,15 +62,15 @@ authRouter.get('/google', passport.authenticate('google', { scope: ['email', 'pr
 authRouter.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: `${GOOGLE_REDIRECT_DOMAIN}/login-error`,
-    successRedirect: `${GOOGLE_REDIRECT_DOMAIN}/app`,
+    failureRedirect: `${APP_URL}/login-error`,
+    successRedirect: `${APP_URL}/app`,
   })
 );
 
 /** api/v1/auth/log-out?backUrl=http://.... */
 authRouter.get('/log-out', (req, res) => {
   req.logout();
-  res.redirect(302, (req.query.backUrl as string) || `${GOOGLE_REDIRECT_DOMAIN}/`);
+  res.redirect(302, (req.query.backUrl as string) || `${APP_URL}/`);
 });
 
 export { passport };

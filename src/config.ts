@@ -17,4 +17,4 @@ export const SESSION_SECRET = process.env.SESSION_SECRET || 'dev';
 export const GOOGLE_CLIENT_ID =
   process.env.GOOGLE_CLIENT_ID || '906330349516-hrgnb3vnkdldarmtge623p17pf9j915s.apps.googleusercontent.com';
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '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';
-export const GOOGLE_REDIRECT_DOMAIN = process.env.GOOGLE_REDIRECT_DOMAIN || 'localhost:4000';
+export const GOOGLE_REDIRECT_DOMAIN = process.env.GOOGLE_REDIRECT_DOMAIN || 'http://localhost:4000';

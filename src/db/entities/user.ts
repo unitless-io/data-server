@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 
-import { UserModel } from '@app/types';
+import { UserModel, User as UserType } from '@app/types';
 
-const userSchema: mongoose.Schema = new mongoose.Schema(
+const userSchema: mongoose.Schema = new mongoose.Schema<UserType>(
   {
-    email: { type: String, default: null },
+    googleId: { type: String, index: true },
+    gitHubId: { type: String, index: true },
+    google: Object,
+    gitHub: Object,
   },
   {
     strict: false,

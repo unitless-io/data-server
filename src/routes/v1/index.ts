@@ -3,6 +3,8 @@ import express from 'express';
 import authRouter, { passport } from './auth';
 import userRouter from './user';
 import applicationsRouter from './applications';
+import fileRouter from './file';
+import functionRouter from './function';
 
 const routerV1 = express.Router();
 
@@ -12,5 +14,7 @@ routerV1.use(passport.session());
 routerV1.use('/auth', authRouter);
 routerV1.use('/user', userRouter);
 routerV1.use('/applications', applicationsRouter);
+routerV1.use('/file', fileRouter);
+routerV1.use('/function', functionRouter);
 
 export default routerV1;

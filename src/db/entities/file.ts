@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 import type { FileModel, File as FileType } from '@app/types';
 
-const fileSchema: mongoose.Schema = new mongoose.Schema<FileType>(
+const fileSchema: Schema = new Schema<FileType>(
   {
-    appId: { type: String, index: true },
+    appId: { type: Schema.Types.ObjectId, index: true },
     content: String,
     path: String,
   },

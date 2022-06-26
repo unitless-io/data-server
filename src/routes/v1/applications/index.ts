@@ -10,10 +10,11 @@ applicationsRouter.get('/', async (req, res) => {
     if (!req.user) {
       throw new Error('Endpoint is not available for an unauthorized user.');
     }
-    const apps = [await Application.findOne<ApplicationDocument>({ token: (req.user as User)?.appToken }).exec()];
+    const apps = await Application.find<ApplicationDocument>({ token: (req.user as User)?.appToken }).exec();
 
-    if (!apps) {
-      throw new Error('No applications found');
+    if (!apps || apps.length === 0) {
+      // ToDo: add logs that no applications found
+      // throw new Error('No applications found');
     }
 
     res.status(200).send(apps);

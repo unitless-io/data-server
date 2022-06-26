@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { FunctionType } from '@app/constants';
 
 export interface Function {
-  fileId: string;
+  fileId: Types.ObjectId;
   hashId: string;
   type: FunctionType;
   name: string;

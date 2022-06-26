@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export interface Call {
-  functionId: string;
+  functionId: Types.ObjectId;
   result: string;
   args: string;
 }

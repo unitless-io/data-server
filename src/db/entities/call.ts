@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 import type { CallModel, Call as CallType } from '@app/types';
 
-const callSchema: mongoose.Schema = new mongoose.Schema<CallType>(
+const callSchema: Schema = new Schema<CallType>(
   {
-    functionId: { type: String, index: true },
+    functionId: { type: Schema.Types.ObjectId, index: true },
     result: String,
     args: String,
   },

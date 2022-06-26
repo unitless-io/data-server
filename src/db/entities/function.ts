@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 import type { FunctionModel, Function as FunctionType } from '@app/types';
 
-const functionSchema: mongoose.Schema = new mongoose.Schema<FunctionType>(
+const functionSchema: Schema = new Schema<FunctionType>(
   {
-    fileId: { type: String, index: true },
+    fileId: { type: Schema.Types.ObjectId, index: true },
     hashId: { type: String, index: true },
     type: String,
     name: String,

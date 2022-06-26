@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export interface Application {
+  userId: Types.ObjectId;
   token: string;
   mode: 'webpack';
   webpackData: {

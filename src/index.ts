@@ -19,6 +19,7 @@ if (DEV) {
     cors({
       origin: 'http://localhost:3000',
       credentials: true, //access-control-allow-credentials:true
+      exposedHeaders: ['Content-disposition'],
     })
   );
   app.use(morgan('common'));

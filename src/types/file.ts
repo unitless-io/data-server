@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export interface File {
-  appId: string;
+  appId: Types.ObjectId;
   content: string;
   areInterceptorsInjected: boolean;
   path: string;

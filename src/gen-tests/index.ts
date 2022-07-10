@@ -27,7 +27,12 @@ const implementationByFramework = {
     }));
 
     // TODO: add data mocking
-    return await renderFile('./src/gen-tests/templates/unit-test.ejs', { functionName, importPath, isDefaultImport, testCases });
+    return await renderFile('./src/gen-tests/templates/unit-test.ejs', {
+      functionName,
+      importPath,
+      isDefaultImport,
+      testCases,
+    });
   },
 };
 

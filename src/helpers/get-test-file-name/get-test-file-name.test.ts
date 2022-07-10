@@ -1,4 +1,4 @@
-import { getTestFilePath } from './index';
+import { getTestFileName } from './index';
 
 const casesForFormats = [
   ['src/utils/math.js', 'sum', 'math-sum.test.js', '.js'],
@@ -9,12 +9,12 @@ const casesForFormats = [
 
 describe('get test file path', () => {
   it.each(casesForFormats)('handles %1 files', (path, funcName, expected) => {
-    expect(getTestFilePath(path, funcName)).toBe(expected);
+    expect(getTestFileName(path, funcName)).toBe(expected);
   });
 });
 
 // TODO: add test cases after implementation
-const casesForIndexFiles = [
-  ['src/utils/math/index.js', 'sumIf', 'sum-if.test.js'],
-  ['index.ts', 'sumIf', 'sum-if.test.ts'],
-];
+// const casesForIndexFiles = [
+//   ['src/utils/math/index.js', 'sumIf', 'sum-if.test.js'],
+//   ['index.ts', 'sumIf', 'sum-if.test.ts'],
+// ];

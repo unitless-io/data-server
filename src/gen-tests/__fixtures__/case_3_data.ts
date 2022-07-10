@@ -1,15 +1,15 @@
-import { GenerationUnit } from '@app/index';
+import { GenerationUnit } from '../index';
 
 export const data: GenerationUnit = {
   importPath: '@app/src/utils/something-cool',
   testsData: [
     {
-      args: [true, 43, { forSure: 'some' }],
-      result: undefined,
+      args: JSON.stringify([true, 43, { forSure: 'some' }]),
+      result: JSON.stringify(undefined),
     },
     {
-      args: [false, null, ['or not null']],
-      result: 'anything',
+      args: JSON.stringify([false, null, ['or not null']]),
+      result: JSON.stringify('anything'),
     },
   ],
 };

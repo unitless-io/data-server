@@ -1,20 +1,20 @@
-import { GenerationUnit } from '@app/index';
+import { GenerationUnit } from '../index';
 
 export const data: GenerationUnit = {
   importPath: '@app/src/utils/append-if',
   importName: 'appendIf',
   testsData: [
     {
-      args: [false, 'any', 'thing'],
-      result: 'any',
+      args: JSON.stringify([false, 'any', 'thing']),
+      result: JSON.stringify('any'),
     },
     {
-      args: [true, 'any', 'thing'],
-      result: 'anything',
+      args: JSON.stringify([true, 'any', 'thing']),
+      result: JSON.stringify('anything'),
     },
     {
-      args: [true, 'any', undefined],
-      result: 'anyundefined',
+      args: JSON.stringify([true, 'any', undefined]),
+      result: JSON.stringify('anyundefined'),
     },
   ],
 };

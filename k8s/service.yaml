@@ -5,7 +5,7 @@ metadata:
   namespace: 'unitless'
   annotations:
     #Important Note:  Need to add health check path annotations in service level if we are planning to use multiple targets in a load balancer
-    alb.ingress.kubernetes.io/healthcheck-path: /health-check
+    alb.ingress.kubernetes.io/healthcheck-path: /api//health
 spec:
   ports:
     - port: 80

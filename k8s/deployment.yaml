@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'data-catcher-app-server'
+  namespace: 'unitless'
+spec:
+  selector:
+    matchLabels:
+      app: 'data-catcher-app-server'
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: 'data-catcher-app-server'
+    spec:
+      containers:
+        - image: $REPOSITORY_URI:latest
+          imagePullPolicy: Always
+          name: 'data-catcher-app-server'
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: APP_HOST
+              value: unitless.io
+            - name: APP_PROTOCOL
+              value: https
+            - name: SESSION_SECRET
+              value: sdf67s5b08c
+            - name: GOOGLE_REDIRECT_DOMAIN
+              value: https://unitless.io

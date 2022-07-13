@@ -14,7 +14,7 @@ spec:
         app: 'data-catcher-app-server'
     spec:
       containers:
-        - image: $REPOSITORY_URI:latest
+        - image: 462087360190.dkr.ecr.eu-central-1.amazonaws.com/data-catcher-app-server:latest
           imagePullPolicy: Always
           name: 'data-catcher-app-server'
           ports:

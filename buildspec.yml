@@ -31,5 +31,5 @@ phases:
       - echo "Update Kube Config"
       - aws eks update-kubeconfig --name unitless
       # Apply changes to our Application using kubectl
-      - kubectl apply -f k8s/deployment.yaml
+      - envsubst < k8s/deployment.yaml | kubectl apply --wait=true -f -
       - kubectl apply -f k8s/service.yaml

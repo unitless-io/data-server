@@ -34,6 +34,8 @@ RUN npm ci --quiet --only=production
 ## We just need the build to execute the command
 COPY --from=builder /usr/src/app/dist ./dist
 
+COPY ./templates ./templates
+
 EXPOSE 4000
 
 CMD ["node", "dist/index.js"]

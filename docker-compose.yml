@@ -10,6 +10,6 @@ services:
     environment:
       - NODE_ENV=production
     ports:
-      - '80:4000'
+      - '4000:4000'
     restart: always
 

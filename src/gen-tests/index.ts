@@ -22,12 +22,12 @@ const implementationByFramework = {
     const isDefaultImport = isNil(importName);
     const functionName = isDefaultImport ? (compose(toCamel, last, split('/'))(importPath) as string) : importName;
     const testCases = testsData.map(({ args, result }) => ({
-      args: args.replace(/"/g, "'"),
-      result: result.replace(/"/g, "'"),
+      args,
+      result,
     }));
 
     // TODO: add data mocking
-    return await renderFile('./src/gen-tests/templates/unit-test.ejs', {
+    return await renderFile('./templates/unit-test.ejs', {
       functionName,
       importPath,
       isDefaultImport,

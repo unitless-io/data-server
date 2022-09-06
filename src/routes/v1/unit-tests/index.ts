@@ -1,10 +1,10 @@
-import express, {Request} from 'express';
+import express, { Request } from 'express';
 import * as stream from 'stream';
 import head from 'ramda/src/head';
 
-import generateUnitTest, { Frameworks } from '@app/gen-tests';
+import generateUnitTest from '@app/gen-tests';
 import { getTestFileName } from '@app/helpers/get-test-file-name';
-import {getFullFunction} from '@app/db/aggregations/fullFunction';
+import { getFullFunction } from '@app/db/aggregations/fullFunction';
 
 const unitTestsRouter = express.Router();
 

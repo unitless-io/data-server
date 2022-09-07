@@ -18,3 +18,6 @@ export const GOOGLE_CLIENT_ID =
   process.env.GOOGLE_CLIENT_ID || '906330349516-hrgnb3vnkdldarmtge623p17pf9j915s.apps.googleusercontent.com';
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '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';
 export const GOOGLE_REDIRECT_DOMAIN = process.env.GOOGLE_REDIRECT_DOMAIN || 'http://localhost:4000';
+
+export const PAYSERA_PROJECT_ID = process.env.PAYSERA_PROJECT_ID || '232201';
+export const PAYSERA_SIGN_PASSWORD = process.env.PAYSERA_SIGN_PASSWORD || '582acb16fad542bca597ccb805629749';

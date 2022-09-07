@@ -60,6 +60,7 @@
     "nocache": "^3.0.3",
     "passport": "^0.5.2",
     "passport-google-oauth2": "^0.2.0",
+    "paysera-nodejs": "^1.0.2",
     "ramda": "^0.28.0"
   }
 }

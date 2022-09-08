@@ -22,7 +22,7 @@ const implementationByFramework = {
     const isDefaultImport = isNil(importName);
     const functionName = isDefaultImport ? (compose(toCamel, last, split('/'))(importPath) as string) : importName;
     const testCases = testsData.map(({ args, result }) => ({
-      args,
+      args: args.substring(1, args.length - 1),
       result,
     }));
 

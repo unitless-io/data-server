@@ -14,8 +14,8 @@ const paysera = new Paysera(options);
 
 const paymentRouter = express.Router();
 
-// POST: /api/v1/payment/new
-paymentRouter.post('/new', async (req, res) => {
+// POST: /api/v1/payment
+paymentRouter.post('/', async (req, res) => {
   if (req.isAuthenticated()) {
     const orderId = 123; // TODO
 

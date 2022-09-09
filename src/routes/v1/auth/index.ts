@@ -10,7 +10,6 @@ import { User } from '@app/db';
 import { getToken } from '@app/helpers';
 
 passport.serializeUser((user, done) => {
-  // @ts-ignore
   done(null, user._id);
 });
 

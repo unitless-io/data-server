@@ -1,5 +1,4 @@
 import express from 'express';
-// @ts-ignore
 import Paysera from 'paysera-nodejs';
 
 import { APP_URL, PAYSERA_PROJECT_ID, PAYSERA_SIGN_PASSWORD } from '@app/config';

@@ -1,5 +1,6 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
+  "ts-node": { "files": true },
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": ".",

@@ -31,7 +31,7 @@ paymentRouter.post('/', async (req, res) => {
       { lean: true, new: true, upsert: true, setDefaultsOnInsert: true }
     ).exec();
 
-    const orderId = order._id;
+    const orderId = order._id.toString();
 
     const params = {
       orderid: orderId,

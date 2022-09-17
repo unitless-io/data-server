@@ -8,6 +8,7 @@ export interface Order {
   currency: string;
   status: OrderStatus;
   servicePlan: string;
+  orderId: string;
 }
 
 export interface OrderModel extends Order, mongoose.Document {}

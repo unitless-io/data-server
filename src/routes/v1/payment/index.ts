@@ -1,11 +1,13 @@
 import express from 'express';
 import Paysera from 'paysera-nodejs';
-import { Types as MongooseTypes } from 'mongoose';
+import { customAlphabet } from 'nanoid';
 
 import { APP_URL, PAYSERA_PROJECT_ID, PAYSERA_SIGN_PASSWORD } from '@app/config';
 import { Order, Transaction } from '@app/db';
 import { OrderDocument } from '@app/types';
 import { OrderStatus, PayseraOrderStatus } from '@app/constants';
+
+const nanoid = customAlphabet('1234567890abcdef', 10);
 
 const options = {
   projectid: PAYSERA_PROJECT_ID,
@@ -25,13 +27,8 @@ paymentRouter.post('/', async (req, res) => {
     const currency = 'EUR'; // TODO
 
     // TODO should be only one activ order
-    const order = await Order.findOneAndUpdate<OrderDocument>(
-      { userId: req.user._id },
-      { amount, currency, servicePlan: 'test' },
-      { lean: true, new: true, upsert: true, setDefaultsOnInsert: true }
-    ).exec();
 
-    const orderId = order._id.toString();
+    const orderId = nanoid();
 
     const params = {
       orderid: orderId,
@@ -40,27 +37,27 @@ paymentRouter.post('/', async (req, res) => {
       currency,
       accepturl: `${APP_URL}/api/v1/payment/accept/${orderId}`,
       cancelurl: `${APP_URL}/api/v1/payment/cancel/${orderId}`,
+      periodic_payments_frequency: 'daily',
     };
 
     const redirectUrl = paysera.buildRequestUrl(params);
 
-    return res.status(200).send({ redirectUrl });
+    res.status(200).send({ redirectUrl });
+
+    const order = new Order({ userId: req.user._id, orderId, amount, currency, servicePlan: 'test' });
+    order.save();
+
+    return;
   }
   return res.status(401).send(null);
 });
 
 // GET: /api/v1/payment/accept/:orderId
 paymentRouter.get('/accept/:orderId', async (req, res) => {
-  const order = await Order.findOne<OrderDocument>(
-    { _id: new MongooseTypes.ObjectId(req.params.orderId) },
-    { lean: true }
-  ).exec();
+  const order = await Order.findOne<OrderDocument>({ orderId: req.params.orderId }, { lean: true }).exec();
 
   if (order?.status === OrderStatus.Submitted) {
-    await Order.updateOne<OrderDocument>(
-      { _id: new MongooseTypes.ObjectId(req.params.orderId) },
-      { status: OrderStatus.Pending }
-    ).exec();
+    await Order.updateOne<OrderDocument>({ orderId: req.params.orderId }, { status: OrderStatus.Pending }).exec();
   }
 
   return res.redirect('/payments?accept');
@@ -68,16 +65,10 @@ paymentRouter.get('/accept/:orderId', async (req, res) => {
 
 // GET: /api/v1/payment/cancel/:orderId
 paymentRouter.get('/cancel/:orderId', async (req, res) => {
-  const order = await Order.findOne<OrderDocument>(
-    { _id: new MongooseTypes.ObjectId(req.params.orderId) },
-    { lean: true }
-  ).exec();
+  const order = await Order.findOne<OrderDocument>({ orderId: req.params.orderId }, { lean: true }).exec();
 
   if (order?.status === OrderStatus.Submitted) {
-    await Order.updateOne<OrderDocument>(
-      { _id: new MongooseTypes.ObjectId(req.params.orderId) },
-      { status: OrderStatus.Cancelled }
-    ).exec();
+    await Order.updateOne<OrderDocument>({ orderId: req.params.orderId }, { status: OrderStatus.Cancelled }).exec();
   }
 
   return res.redirect('/payments?cancel');
@@ -101,7 +92,7 @@ paymentRouter.get('/callback', async (req, res) => {
 
     if (payseraOrder.status === PayseraOrderStatus.PaymentSuccessful) {
       await Order.updateOne<OrderDocument>(
-        { _id: new MongooseTypes.ObjectId(payseraOrder.orderid) },
+        { orderId: payseraOrder.orderid },
         { status: OrderStatus.Success },
         { lean: true }
       ).exec();

@@ -23,7 +23,7 @@ const paymentRouter = express.Router();
 // POST: /api/v1/payment
 paymentRouter.post('/', async (req, res) => {
   if (req.isAuthenticated()) {
-    const amount = 100; // TODO
+    const amount = 10000; // TODO
     const currency = 'EUR'; // TODO
 
     // TODO should be only one activ order
@@ -35,9 +35,10 @@ paymentRouter.post('/', async (req, res) => {
       p_email: req.user.google?.email,
       amount,
       currency,
-      accepturl: `${APP_URL}/api/v1/payment/accept/${orderId}`,
-      cancelurl: `${APP_URL}/api/v1/payment/cancel/${orderId}`,
-      periodic_payments_frequency: 'daily',
+      accepturl: `${APP_URL}/api/v1/payment/accept/`,
+      cancelurl: `${APP_URL}/api/v1/payment/cancel/`,
+      periodic_payments_frequency: 'weekly',
+      periodic_payments_start_date: '2022-09-17',
     };
 
     const redirectUrl = paysera.buildRequestUrl(params);

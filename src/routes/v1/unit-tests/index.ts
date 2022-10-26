@@ -4,44 +4,31 @@ import * as stream from 'stream';
 import generateUnitTest from '@app/gen-tests';
 import { getTestFileName } from '@app/helpers/get-test-file-name';
 import { filesByIdMap, functionsByFileMap, callsByFunctionMap } from '@app/db';
-import callsRouter from '@app/routes/v1/calls';
-import { compose, propIs, propOr, props } from 'ramda';
+import { compose, propOr, props } from 'ramda';
 import { Call } from '@app/types';
+import queryValidationFactory from '@app/middlewares/query-validation';
 
 const unitTestsRouter = express.Router();
 
 interface DownloadQuery {
   fileId: string;
-  funcId: string;
+  funcName: string;
   callIds: string;
 }
 
-callsRouter.use((req: Request<{}, any, any, Partial<DownloadQuery>>, res, next) => {
-  const missingQuery = ['fileId', 'funcId', 'callIds'].reduce<string[]>((acc, queryParameter) => {
-    if (!propIs(String, queryParameter, req.query)) {
-      acc.push(queryParameter);
-    }
-
-    return acc;
-  }, []);
-
-  if (missingQuery) {
-    throw new Error(`Query parameter(s) ${missingQuery.join(', ')} are required but not provided.`);
-  }
-
-  next();
-});
+unitTestsRouter.use(queryValidationFactory<DownloadQuery>(['fileId', 'funcName', 'callIds']));
 
 unitTestsRouter.get('/', async (req: Request<{}, any, any, DownloadQuery>, res) => {
   try {
-    const { fileId, funcId, callIds: callIdsString } = req.query;
+    const { fileId, funcName, callIds: callIdsString } = req.query;
     const callIds = callIdsString.split(',');
+    const targetFunctionId = `${fileId}:${funcName}`;
 
     const targetFile = filesByIdMap[fileId];
-    const targetFunction = functionsByFileMap[fileId]?.[funcId];
+    const targetFunction = functionsByFileMap[fileId]?.[funcName];
     const targetCalls = compose(
       props<string, Call>(callIds),
-      propOr<Record<string, Call>>({}, funcId)
+      propOr<Record<string, Call>>({}, targetFunctionId)
     )(callsByFunctionMap);
 
     if (!targetFile) {
@@ -49,7 +36,7 @@ unitTestsRouter.get('/', async (req: Request<{}, any, any, DownloadQuery>, res) 
     }
 
     if (!targetFunction) {
-      throw new Error(`No functions found for funcId: ${funcId}`);
+      throw new Error(`No functions found for funcId: ${funcName}`);
     }
 
     if (targetCalls.length === 0) {

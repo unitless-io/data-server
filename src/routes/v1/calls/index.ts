@@ -1,27 +1,26 @@
 import express, { Request } from 'express';
-import { callsByFunctionMap } from '@app/db';
 import { compose, propOr, values } from 'ramda';
+
+import { callsByFunctionMap, getFunctionId } from '@app/db';
+import queryValidationFactory from '@app/middlewares/query-validation';
 
 const callsRouter = express.Router();
 
 interface CallsRouteQuery {
-  funcId: string;
+  fileId: string;
+  funcName: string;
 }
 
-callsRouter.use((req: Request<{}, any, any, Partial<CallsRouteQuery>>, res, next) => {
-  if (!req.query.funcId) {
-    throw new Error('Query parameter funcId is required but not provided.');
-  }
-
-  next();
-});
+callsRouter.use(queryValidationFactory<CallsRouteQuery>(['fileId', 'funcName']));
 
 callsRouter.get('/', async (req: Request<{}, any, any, CallsRouteQuery>, res) => {
   try {
+    const functionId = getFunctionId(req.query);
+
     // eslint-disable-next-line
     const calls = compose(
       values,
-      propOr({}, req.query.funcId),
+      propOr({}, functionId),
     )(callsByFunctionMap);
 
     res.status(200).send(calls);

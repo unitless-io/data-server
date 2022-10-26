@@ -14,15 +14,13 @@ export const filesByIdMap: Record<string, File> = {
 
 export const functionsByFileMap: Record<string, Record<string, Function>> = {
   'some-hash-1': {
-    '123': {
-      _id: '123',
+    superFunction: {
       fileId: 'some-hash-1',
       type: FunctionType.Arrow,
       name: 'superFunction',
       contentChangedAt: new Date(),
     },
-    '87': {
-      _id: '87',
+    getSuperType: {
       fileId: 'some-hash-1',
       type: FunctionType.Arrow,
       name: 'getSuperType',
@@ -30,8 +28,7 @@ export const functionsByFileMap: Record<string, Record<string, Function>> = {
     },
   },
   'some-hash-2': {
-    '11': {
-      _id: '11',
+    forTest: {
       fileId: 'some-hash-2',
       type: FunctionType.Arrow,
       name: 'forTest',
@@ -40,8 +37,10 @@ export const functionsByFileMap: Record<string, Record<string, Function>> = {
   },
 };
 
+export const getFunctionId = ({ fileId, funcName }: { fileId: string; funcName: string }) => `${fileId}:${funcName}`;
+
 export const callsByFunctionMap: Record<string, Record<string, Call>> = {
-  '123': {
+  'some-hash-1:superFunction': {
     '01': {
       _id: '01',
       functionId: '123',
@@ -55,5 +54,4 @@ export const callsByFunctionMap: Record<string, Record<string, Call>> = {
       result: '{"isOpen":[],"fontFamily":"\'Poppins\', sans-serif","borderRadius":12,"opened":true}',
     },
   },
-  '11': {},
 };

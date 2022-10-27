@@ -6,7 +6,8 @@
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"]
-    }
+    },
+    "declaration": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

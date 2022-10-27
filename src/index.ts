@@ -34,6 +34,8 @@ app.get('/health-check', (req, res) => {
 
 const server = http.createServer(app);
 
-server.listen(PORT, () => {
-  console.log(`Unitless data server has been started at port: ${PORT}`);
-});
+export const startDataServer = (port = PORT) => {
+  server.listen(port, () => {
+    console.log(`Unitless data server has been started at port: ${port}`);
+  });
+};

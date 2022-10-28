@@ -4,11 +4,16 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
+import findNodeModules from 'find-node-modules';
 
 import { PORT, DEV } from '@app/config';
 import router from '@app/routes';
 
-const browserAppPath = path.join(__dirname, '..', 'node_modules', '@unitless-io/browser-app', 'build');
+const browserAppPath = path.join(
+  findNodeModules({ cwd: __dirname, relative: false })[0],
+  '@unitless-io/browser-app',
+  'build'
+);
 
 const app = express();
 

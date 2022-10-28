@@ -13,7 +13,7 @@ const app = express();
 if (DEV) {
   app.use(
     cors({
-      origin: false,
+      origin: true,
       credentials: true,
       exposedHeaders: ['Content-disposition'],
     })

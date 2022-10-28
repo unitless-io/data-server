@@ -1,12 +1,14 @@
 import http from 'http';
 
 import express from 'express';
-import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import path from 'path';
 
 import { PORT, DEV } from '@app/config';
 import router from '@app/routes';
+
+const browserAppPath = path.join(__dirname, '..', 'node_modules', '@unitless-io/browser-app', 'build');
 
 const app = express();
 
@@ -18,7 +20,6 @@ if (DEV) {
       exposedHeaders: ['Content-disposition'],
     })
   );
-  app.use(morgan('common'));
 }
 
 app.use(cookieParser());
@@ -30,6 +31,12 @@ app.use('/api', router);
 // Health check
 app.get('/health-check', (req, res) => {
   res.status(200).send({ status: 'OK' });
+});
+
+app.use(express.static(browserAppPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(browserAppPath, 'index.html'));
 });
 
 const server = http.createServer(app);

@@ -7,7 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "nodemon src/dev.ts",
     "build": "tsc && babel ./src --out-dir ./dist --extensions \".ts\"",
     "test": "npx jest --passWithNoTests",
     "lint": "eslint src --ext ts --resolve-plugins-relative-to . && npm run prettier-check",
@@ -49,6 +49,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@unitless-io/browser-app": "git+https://github.com/unitless-io/browser-app.git#develop",
     "@unitless-io/local-db": "git+https://github.com/unitless-io/local-db.git#develop",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

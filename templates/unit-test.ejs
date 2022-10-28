@@ -1,0 +1,7 @@
+import <% if(isDefaultImport) { %><%- functionName %><% } else { %>{ <%- functionName %> }<% } %> from '<%- importPath %>';
+
+describe('<%- functionName %>', () => {
+  <% for (var i = 0; i < testCases.length; i++) { %>it('case <%- i + 1 %>', () => {
+    expect(<%- functionName %>(<%- testCases[i].args %>)).toEqual(<%- testCases[i].result %>);
+  });<% if (i + 1 !== testCases.length) {%><%- '\n\n  ' %><% }} %>
+});

@@ -1,3 +1,3 @@
 import { startDataServer } from '@app/index';
 
-startDataServer();
+startDataServer('4000', { open: false });

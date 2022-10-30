@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import findNodeModules from 'find-node-modules';
+import open from 'open';
 
 import { PORT, DEV } from '@app/config';
 import router from '@app/routes';
@@ -46,8 +47,14 @@ app.get('*', (req, res) => {
 
 const server = http.createServer(app);
 
-export const startDataServer = (port = PORT) => {
+export const startDataServer = (port = PORT, options: { open: boolean } = { open: true }) => {
   server.listen(port, () => {
-    console.log(`Unitless data server has been started at port: ${port}`);
+    const url = `http://localhost:${port}/`;
+
+    console.log(`Unitless data server has been started: ${url}`);
+
+    if (options.open) {
+      open(url);
+    }
   });
 };

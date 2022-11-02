@@ -1,8 +1,7 @@
 import express, { Request } from 'express';
-import { compose, propOr, values, groupBy, toPairs } from 'ramda';
-import { saveCalls } from '@unitless-io/local-db';
+import { groupBy, toPairs } from 'ramda';
+import { getCalls, saveCalls } from '@unitless-io/local-db';
 
-import { callsByFunctionMap, getFunctionId } from '@app/db';
 import queryValidationFactory from '@app/middlewares/query-validation';
 
 const callsRouter = express.Router();
@@ -17,10 +16,7 @@ callsRouter.get(
   queryValidationFactory<CallsRouteQuery>(['fileId', 'funcName']),
   async (req: Request<{}, any, any, CallsRouteQuery>, res) => {
     try {
-      const functionId = getFunctionId(req.query);
-
-      // eslint-disable-next-line
-      const calls = compose(values, propOr({}, functionId))(callsByFunctionMap);
+      const calls = await getCalls({ fileId: req.query.fileId, funcName: req.query.funcName });
 
       res.status(200).send(calls);
     } catch (error: any) {

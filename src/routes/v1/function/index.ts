@@ -1,6 +1,6 @@
 import express, { Request } from 'express';
-import { functionsByFileMap } from '@app/db';
-import { compose, prop, propOr, values } from 'ramda';
+
+import { getFunctions, getFunction } from '@unitless-io/local-db';
 import queryValidationFactory from '@app/middlewares/query-validation';
 
 const functionsRouter = express.Router();
@@ -13,11 +13,7 @@ functionsRouter.use(queryValidationFactory<FunctionsRouteQuery>(['fileId']));
 
 functionsRouter.get('/', async (req: Request<{}, any, any, FunctionsRouteQuery>, res) => {
   try {
-    // eslint-disable-next-line
-    const functions = compose(
-      values,
-      propOr({}, req.query.fileId),
-    )(functionsByFileMap);
+    const functions = await getFunctions(req.query.fileId);
 
     res.status(200).send(functions);
   } catch (error: any) {
@@ -28,13 +24,9 @@ functionsRouter.get('/', async (req: Request<{}, any, any, FunctionsRouteQuery>,
 
 functionsRouter.get('/:funcName', async (req: Request<{ funcName: string }, any, any, FunctionsRouteQuery>, res) => {
   try {
-    // eslint-disable-next-line
-    const func = compose(
-      prop(req.params.funcName),
-      propOr({}, req.query.fileId),
-    )(functionsByFileMap);
+    const func = await getFunction({ fileId: req.query.fileId, funcName: req.params.funcName });
 
-    res.status(200).send(func || null);
+    res.status(200).send(func);
   } catch (error: any) {
     console.error(error);
     res.status(500).send(error?.message);

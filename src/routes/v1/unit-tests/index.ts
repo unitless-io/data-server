@@ -1,11 +1,9 @@
 import express, { Request } from 'express';
 import * as stream from 'stream';
+import { getCalls, getFile } from '@unitless-io/local-db';
 
 import generateUnitTest from '@app/gen-tests';
 import { getTestFileName } from '@app/helpers/get-test-file-name';
-import { filesByIdMap, functionsByFileMap, callsByFunctionMap } from '@app/db';
-import { compose, propOr, props } from 'ramda';
-import { Call } from '@app/types';
 import queryValidationFactory from '@app/middlewares/query-validation';
 
 const unitTestsRouter = express.Router();
@@ -22,31 +20,22 @@ unitTestsRouter.get('/', async (req: Request<{}, any, any, DownloadQuery>, res) 
   try {
     const { fileId, funcName, callIds: callIdsString } = req.query;
     const callIds = callIdsString.split(',');
-    const targetFunctionId = `${fileId}:${funcName}`;
 
-    const targetFile = filesByIdMap[fileId];
-    const targetFunction = functionsByFileMap[fileId]?.[funcName];
-    const targetCalls = compose(
-      props<string, Call>(callIds),
-      propOr<Record<string, Call>>({}, targetFunctionId)
-    )(callsByFunctionMap);
+    const targetFile = await getFile(fileId);
+    const targetCalls = await getCalls({ fileId, funcName, callIds });
 
     if (!targetFile) {
       throw new Error(`No files found for fileId: ${fileId}`);
-    }
-
-    if (!targetFunction) {
-      throw new Error(`No functions found for funcId: ${funcName}`);
     }
 
     if (targetCalls.length === 0) {
       throw new Error(`No function calls found for callIds: ${callIdsString}`);
     }
 
-    const testFileName = getTestFileName(targetFile.path, targetFunction.name);
+    const testFileName = getTestFileName(targetFile.path, funcName);
     const unitTestsFile = await generateUnitTest({
       importPath: targetFile.path,
-      importName: targetFunction.name,
+      importName: funcName,
       testsData: targetCalls,
     });
 

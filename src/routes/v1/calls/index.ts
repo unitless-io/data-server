@@ -1,6 +1,7 @@
 import express, { Request } from 'express';
 import { groupBy, toPairs } from 'ramda';
-import { getCalls, saveCalls } from '@unitless-io/local-db';
+
+import { getCalls, saveCalls, deleteAllCalls } from '@unitless-io/local-db';
 
 import queryValidationFactory from '@app/middlewares/query-validation';
 
@@ -36,6 +37,13 @@ callsRouter.post('/', async (req, res) => {
   toPairs(groupBy(({ id }) => id, data)).forEach(async ([id, calls]) => {
     saveCalls(id, calls);
   });
+});
+
+// DELETE: /api/v1/calls
+callsRouter.delete('/', async (req, res) => {
+  await deleteAllCalls();
+
+  res.status(200).send();
 });
 
 export default callsRouter;

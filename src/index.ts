@@ -1,13 +1,11 @@
 import http from 'http';
 
 import express from 'express';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import path from 'path';
 import findNodeModules from 'find-node-modules';
 import open from 'open';
 
-import { PORT, DEV } from '@app/config';
+import { PORT } from '@app/config';
 import router from '@app/routes';
 
 const browserAppPath = path.join(
@@ -18,17 +16,6 @@ const browserAppPath = path.join(
 
 const app = express();
 
-if (DEV) {
-  app.use(
-    cors({
-      origin: true,
-      credentials: true,
-      exposedHeaders: ['Content-disposition'],
-    })
-  );
-}
-
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

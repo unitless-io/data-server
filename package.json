@@ -1,8 +1,9 @@
 {
   "name": "@unitless-io/data-server",
-  "version": "0.0.1",
-  "description": "Backend application for the unitless.io software",
+  "version": "1.0.0",
+  "description": "Backend application for the @unitless-io/loader",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -13,21 +14,36 @@
     "lint": "eslint src --ext ts --resolve-plugins-relative-to . && npm run prettier-check",
     "prettier": "prettier --ignore-path .eslintignore --write \"./**/*.ts\" \"./**/*.json\"",
     "prettier-check": "prettier --ignore-path .eslintignore --check \"./**/*.ts\" \"./**/*.json\"",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "release": "standard-version"
   },
-  "author": "unitless-io",
+  "contributors": [
+    {
+      "name": "Vlad Surahin",
+      "email": "v.suragin@gmail.com",
+      "url": "https://github.com/vinlaud"
+    },
+    {
+      "name": "Siarhei Smantsar",
+      "email": "siarhei.smantsar@gmail.com",
+      "url": "https://github.com/SIARHEI-SMANTSAR"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unitless-io/data-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unitless-io/data-server/issues"
+  },
+  "homepage": "https://github.com/unitless-io/data-server#readme",
   "license": "Apache-2.0 license",
-  "engines": {
-    "node": ">=16"
-  },
   "devDependencies": {
     "@babel/cli": "^7.17.3",
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@tsconfig/node16": "^1.0.2",
-    "@types/cookie-parser": "^1.4.2",
-    "@types/cors": "^2.8.12",
     "@types/ejs": "^3.1.1",
     "@types/express": "^4.17.13",
     "@types/find-node-modules": "^2.1.0",
@@ -44,16 +60,15 @@
     "jest": "^27.5.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.5.1",
+    "standard-version": "^9.5.0",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@unitless-io/browser-app": "git+https://github.com/unitless-io/browser-app.git#develop",
-    "@unitless-io/local-db": "git+https://github.com/unitless-io/local-db.git#develop",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
+    "@unitless-io/browser-app": "1.0.0",
+    "@unitless-io/local-db": "1.0.0",
     "ejs": "^3.1.8",
     "express": "^4.17.3",
     "find-node-modules": "^2.1.3",

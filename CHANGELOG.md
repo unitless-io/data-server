@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.2 (2022-11-04)
+
+
+### Features
+
+* add @unitless-io/browser-app ([2efef51](https://github.com/unitless-io/data-server/commit/2efef5145c8fe1c972a4d0194fb52c3a80b15ab2))
+* add DELETE: /api/v1/calls ([6711792](https://github.com/unitless-io/data-server/commit/67117920abbb448ef21430a5ddb24d8f15d1bcbf))
+* add open option to startDataServer ([1a05c7c](https://github.com/unitless-io/data-server/commit/1a05c7cadaf4ee86ecf717f1609186e205355642))
+* add POST: /api/v1/calls ([e459b08](https://github.com/unitless-io/data-server/commit/e459b08166fa816c5830b7c3ca4583fd9dcdea74))
+* change data structure and routes interface ([441ae15](https://github.com/unitless-io/data-server/commit/441ae15509e0b0f8731e953e95d4976e2c20114c))
+* get rid of useless data ([792f509](https://github.com/unitless-io/data-server/commit/792f5092c6a56237566a6eb37eb4305b4fff9665))
+* initial backend implemenation ([7aff5bb](https://github.com/unitless-io/data-server/commit/7aff5bbf38b7deafda74d0e35c5ac399684b280e))
+* read files, funcs and calls from local-db ([7b422ad](https://github.com/unitless-io/data-server/commit/7b422add698affbfa93e5ae8d39d74dc7667c0a2))
+
+
+### Bug Fixes
+
+* add cors ([c51671c](https://github.com/unitless-io/data-server/commit/c51671ca6a0de4c8dd85a4f31a78a2554e04d265))
+* browserAppPath ([1e0491a](https://github.com/unitless-io/data-server/commit/1e0491a93732ed8fb1c0d18df9ea01a7ab72fc83))
+* templates path ([e86f6da](https://github.com/unitless-io/data-server/commit/e86f6da2636f7e767850499793d55818c4a2f05c))
+
 ### 1.0.1 (2022-11-04)
 
 ### Bug Fixes

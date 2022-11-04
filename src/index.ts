@@ -1,6 +1,7 @@
 import http from 'http';
 
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import findNodeModules from 'find-node-modules';
 import open from 'open';
@@ -15,6 +16,14 @@ const browserAppPath = path.join(
 );
 
 const app = express();
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ['Content-disposition'],
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

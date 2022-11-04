@@ -1,5 +1,6 @@
 import { compose, isNil, last, replace, split, toUpper } from 'ramda';
 import ejs from 'ejs';
+import path from 'path';
 
 export enum Frameworks {
   Jest = 'jest',
@@ -14,8 +15,10 @@ export interface GenerationUnit {
 // @ts-ignore
 const toCamel: (string) => string = replace(/([-_][a-z])/gi, compose(toUpper, last));
 
-const renderFile = (path: string, data: any) =>
-  new Promise<string>((resolve) => ejs.renderFile(path, data, (err, result) => resolve(result)));
+const renderFile = (filePath: string, data: any) =>
+  new Promise<string>((resolve) =>
+    ejs.renderFile(path.resolve(__dirname, '../../', filePath), data, (err, result) => resolve(result))
+  );
 
 const implementationByFramework = {
   [Frameworks.Jest]: async ({ importPath, importName, testsData }: GenerationUnit) => {

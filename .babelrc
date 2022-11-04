@@ -20,5 +20,6 @@
         }
       }
     ]
-  ]
+  ],
+  "ignore": ["./src/**/*.test.ts", "./src/**/__fixtures__/**/*"]
 }

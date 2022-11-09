@@ -1,19 +1,14 @@
 import http from 'http';
-
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import findNodeModules from 'find-node-modules';
 import open from 'open';
+import { getBrowserAppPath } from '@unitless-io/browser-app';
 
 import { PORT } from '@app/config';
 import router from '@app/routes';
 
-const browserAppPath = path.join(
-  findNodeModules({ cwd: __dirname, relative: false })[0],
-  '@unitless-io/browser-app',
-  'build'
-);
+const browserAppPath = getBrowserAppPath();
 
 const app = express();
 
